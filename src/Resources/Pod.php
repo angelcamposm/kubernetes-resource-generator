@@ -32,12 +32,27 @@ final class Pod extends K8sWorkloadResource
         parent::__construct(kind: 'Pod', apiVersion: 'v1');
     }
 
+    /**
+     * Set the Operating System name.
+     * It can be one of linux|windows.
+     *
+     * @param string $name
+     *
+     * @return Pod
+     */
     public function osName(string $name): Pod
     {
         $this->osName = $name;
         return $this;
     }
 
+    /**
+     * Set replicas.
+     *
+     * @param int $replicas
+     *
+     * @return Pod
+     */
     public function replicas(int $replicas): Pod
     {
         $this->replicas = $replicas;
