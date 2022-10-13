@@ -1,0 +1,7 @@
+.idea
+.phpunit.cache
+build
+node_modules
+target
+vendor
+.phpunit.result.cache
