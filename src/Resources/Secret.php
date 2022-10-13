@@ -22,7 +22,6 @@ final class Secret extends K8sConfigurationResource
      */
     public function toArray(): array
     {
-        // TODO: Implement toArray() method.
-        return [];
+        return $this->getBaseArrayDefinition();
     }
 }

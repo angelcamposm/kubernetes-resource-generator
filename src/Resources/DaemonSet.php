@@ -30,7 +30,6 @@ final class DaemonSet extends K8sWorkloadResource
      */
     public function toArray(): array
     {
-        // TODO: Implement toArray() method.
-        return [];
+        return $this->getBaseArrayDefinition();
     }
 }

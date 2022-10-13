@@ -29,7 +29,6 @@ final class ReplicaSet extends K8sResource
      */
     public function toArray(): array
     {
-        // TODO: Implement toArray() method.
-        return [];
+        return $this->getBaseArrayDefinition();
     }
 }

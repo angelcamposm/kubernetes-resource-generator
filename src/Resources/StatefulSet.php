@@ -35,7 +35,6 @@ final class StatefulSet extends K8sResource
      */
     public function toArray(): array
     {
-        // TODO: Implement toArray() method.
-        return [];
+        return $this->getBaseArrayDefinition();
     }
 }

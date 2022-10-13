@@ -26,7 +26,6 @@ final class Ingress extends K8sNetworkResource
 
     public function toArray(): array
     {
-        // TODO: Implement toArray() method.
-        return [];
+        return $this->getBaseArrayDefinition();
     }
 }
