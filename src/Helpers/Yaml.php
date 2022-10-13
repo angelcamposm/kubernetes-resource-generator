@@ -25,6 +25,6 @@ class Yaml
 
     public static function dump(mixed $input): string
     {
-        return SymfonyYaml::dump($input,self::LEVEL,self::INDENT, self::FLAGS);
+        return SymfonyYaml::dump($input, self::LEVEL,self::INDENT, self::FLAGS);
     }
 }
