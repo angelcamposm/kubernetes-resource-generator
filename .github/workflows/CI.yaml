@@ -29,7 +29,7 @@ jobs:
         run: composer run phpunit:run
 
       - name: Fix code coverage paths
-        run: sed -i 's@'$GITHUB_WORKSPACE'@/github/workspace/@g' coverage.xml
+        run: sed -i 's@'$GITHUB_WORKSPACE'@/github/workspace/@g' build/coverage/phpunit.coverage.xml
 
       - name: SonarCloud Scan
         uses: SonarSource/sonarcloud-github-action@master
