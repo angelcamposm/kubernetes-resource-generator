@@ -32,6 +32,7 @@
         </include>
         <report>
             <cobertura outputFile="build/coverage/cobertura.xml"/>
+            <clover outputFile="build/coverage/phpunit.coverage.xml"/>
             <html outputDirectory="build/coverage/html-coverage" lowUpperBound="50" highLowerBound="90"/>
         </report>
     </coverage>
