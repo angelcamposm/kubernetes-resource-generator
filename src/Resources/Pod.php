@@ -66,7 +66,7 @@ final class Pod extends K8sWorkloadResource
      *
      * @param string $policy
      *
-     * @return $this
+     * @return Pod
      */
     public function restartPolicy(string $policy): Pod
     {
