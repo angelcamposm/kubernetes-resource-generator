@@ -28,7 +28,7 @@
     },
     "autoload-dev": {
         "psr-4": {
-            "Acamposm\\Tests\\": "tests/"
+            "Acamposm\\KubernetesResourceGenerator\\Tests\\": "tests/"
         }
     },
     "minimum-stability": "dev",
