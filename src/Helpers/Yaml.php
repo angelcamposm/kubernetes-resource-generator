@@ -6,7 +6,14 @@ use Symfony\Component\Yaml\Yaml as SymfonyYaml;
 
 class Yaml
 {
+    /**
+     * The level where you switch to inline YAML.
+     */
     public const INDENT = 2;
+
+    /**
+     * The amount of spaces to use for indentation of nested nodes.
+     */
     public const LEVEL = 6;
 
     public static function dump(mixed $input): string
