@@ -6,8 +6,8 @@ use RuntimeException;
 
 class UnexpectedUnitSuffixException extends RuntimeException
 {
-    public function __construct()
+    public function __construct(string $message)
     {
-        parent::__construct('Unknown unit suffix.', 0);
+        parent::__construct('Unknown unit suffix: '.$message, 0);
     }
 }
