@@ -3,16 +3,17 @@
 namespace Acamposm\KubernetesResourceGenerator;
 
 use Acamposm\KubernetesResourceGenerator\Contracts\KubernetesResource;
-use stdClass;
+use Acamposm\KubernetesResourceGenerator\Traits\CanCheckProperties;
 
 abstract class K8sResource implements KubernetesResource
 {
+    use CanCheckProperties;
+
     protected array $annotations = [];
     protected array $labels = [];
     protected string $name;
     protected string $namespace = '';
     protected array $selectors = [];
-
 
     /**
      * K8sResource constructor.
@@ -81,7 +82,6 @@ abstract class K8sResource implements KubernetesResource
      *
      * @return $this
      */
-
     public function addAnnotations(array $annotationPairs): K8sResource
     {
         foreach ($annotationPairs as $key => $value) {
