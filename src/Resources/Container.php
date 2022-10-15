@@ -13,7 +13,7 @@ final class Container
 
     private array $args = [];
     private array $commands = [];
-    private array $environment = [];
+    private array $env = [];
     private string $image;
     private ImagePullPolicy $imagePullPolicy;
     private string $name;
@@ -78,7 +78,7 @@ final class Container
 
     public function addEnvVariable(string $name, string $value): Container
     {
-        $this->environment[] = [
+        $this->env[] = [
             'name' => $name,
             'value' => $value,
         ];
@@ -109,7 +109,7 @@ final class Container
     {
         $container = [];
 
-        $properties = ['name', 'image', 'environment', 'ports', 'volumeMounts'];
+        $properties = ['name', 'image', 'env', 'ports', 'volumeMounts'];
 
         foreach ($properties as $property) {
             if ($this->checkProperty($property)) {
