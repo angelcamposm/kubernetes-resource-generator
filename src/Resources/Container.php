@@ -2,6 +2,7 @@
 
 namespace Acamposm\KubernetesResourceGenerator\Resources;
 
+use Acamposm\KubernetesResourceGenerator\Enums\ImagePullPolicy;
 use Acamposm\KubernetesResourceGenerator\Helpers\ResourceUnit;
 use Acamposm\KubernetesResourceGenerator\K8sResource;
 use Acamposm\KubernetesResourceGenerator\Traits\Exportable;
@@ -11,14 +12,16 @@ class Container
     use Exportable;
 
     private array $args = [];
-    private array $command = [];
+    private array $commands = [];
     private array $environment = [];
     private string $image;
+    private ImagePullPolicy $imagePullPolicy;
     private string $name;
     private string $cpuLimit;
     private string $cpuRequest;
     private string $memoryLimit;
     private string $memoryRequest;
+    private array $ports;
     private array $volumeMounts = [];
 
     /**
@@ -47,6 +50,20 @@ class Container
         return $this;
     }
 
+    public function addCommands(array $commands): Container
+    {
+        foreach($commands as $key => $command) {
+            $this->commands[] = $command;
+        }
+        return $this;
+    }
+
+    public function imagePullPolicy(ImagePullPolicy $imagePullPolicy): Container
+    {
+        $this->imagePullPolicy = $imagePullPolicy;
+        return $this;
+    }
+
     public function setCpuLimit(string $value): Container
     {
         $this->cpuLimit = ResourceUnit::validate($value);
@@ -68,6 +85,14 @@ class Container
         return $this;
     }
 
+    public function addPorts(array $ports): Container
+    {
+        foreach($ports as $port) {
+            $this->ports[] = $port;
+        }
+        return $this;
+    }
+
     public function setMemoryLimit(string $value): Container
     {
         $this->memoryLimit = ResourceUnit::validate($value);
@@ -78,11 +103,6 @@ class Container
     {
         $this->memoryRequest = ResourceUnit::validate($value);
         return $this;
-    }
-
-    public function checkProperty(string $name): bool
-    {
-        return isset($this->$name) && !empty($this->$name);
     }
 
     public function toArray(): array
