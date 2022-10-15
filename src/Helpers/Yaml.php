@@ -14,7 +14,7 @@ class Yaml
     /**
      * The amount of spaces to use for indentation of nested nodes.
      */
-    public const LEVEL = 6;
+    public const LEVEL = 8;
 
     /**
      * A bit field of DUMP_* constants to customize the dumped YAML string.
