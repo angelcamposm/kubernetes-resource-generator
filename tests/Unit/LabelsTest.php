@@ -109,6 +109,26 @@ class LabelsTest extends TestCase
         $this->assertEquals(self::VERSION, $labelsValue['app.kubernetes.io/version']);
     }
 
+    public function testItCanGetAllLabels(): void
+    {
+        $labels = $this->labels
+            ->component(self::COMPONENT)
+            ->instance(self::INSTANCE)
+            ->managedBy(self::MANAGED_BY)
+            ->name(self::NAME)
+            ->partOf(self::PART_OF)
+            ->version(self::VERSION)
+            ->toArray();
+
+        $this->assertIsArray($labels);
+        $this->assertArrayHasKey('app.kubernetes.io/component', $labels);
+        $this->assertArrayHasKey('app.kubernetes.io/instance', $labels);
+        $this->assertArrayHasKey('app.kubernetes.io/managed-by', $labels);
+        $this->assertArrayHasKey('app.kubernetes.io/name', $labels);
+        $this->assertArrayHasKey('app.kubernetes.io/part-of', $labels);
+        $this->assertArrayHasKey('app.kubernetes.io/version', $labels);
+    }
+
     /**
      * @throws ReflectionException
      */
