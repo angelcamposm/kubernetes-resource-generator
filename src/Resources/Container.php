@@ -126,31 +126,35 @@ final class Container
         }
 
         if ($this->checkProperty('cpuLimit')) {
-            $container['resources']['limits']['cpu'] = ResourceUnit::isInteger($this->cpuLimit)
-                ? $this->cpuLimit
-                : '^'.$this->cpuLimit.'^';
+            $container['resources']['limits']['cpu'] = self::addSimpleQuotesTo($this->cpuLimit);
         }
 
         if ($this->checkProperty('cpuRequest')) {
-            $container['resources']['requests']['cpu'] = ResourceUnit::isInteger($this->cpuRequest)
-                ? $this->cpuRequest
-                : '^'.$this->cpuRequest.'^';
+            $container['resources']['requests']['cpu'] = self::addSimpleQuotesTo($this->cpuRequest);;
         }
 
         if ($this->checkProperty('memoryLimit')) {
-            $container['resources']['limits']['memory'] = ResourceUnit::isInteger($this->memoryLimit)
-                ? $this->memoryLimit
-                : '^'.$this->memoryLimit.'^';
+            $container['resources']['limits']['memory'] = self::addSimpleQuotesTo($this->memoryLimit);;
         }
 
         if ($this->checkProperty('memoryRequest')) {
-            $container['resources']['requests']['memory'] = ResourceUnit::isInteger($this->memoryRequest)
-                ? $this->memoryRequest
-                : '^'.$this->memoryRequest.'^';
+            $container['resources']['requests']['memory'] = self::addSimpleQuotesTo($this->memoryRequest);;
         }
 
         ksort($container);
 
         return $container;
+    }
+
+    /**
+     * add simple quotes to the value.
+     *
+     * @param string $value
+     *
+     * @return string
+     */
+    private static function addSimpleQuotesTo(string $value): string
+    {
+        return ResourceUnit::isInteger($value) ? $value : '^'.$value.'^';
     }
 }
