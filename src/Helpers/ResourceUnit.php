@@ -9,6 +9,9 @@ class ResourceUnit
 {
     public const UNIT_SUFFIXES = ['E', 'P', 'T', 'G', 'M', 'k', 'Ei', 'Pi', 'Ti', 'Gi', 'Mi', 'Ki', 'm'];
 
+    /**
+     * @throws UnexpectedUnitSuffixException
+     */
     public static function validate(mixed $value): string
     {
         if (is_int(filter_var($value, FILTER_VALIDATE_INT))) {
@@ -19,7 +22,7 @@ class ResourceUnit
     }
 
     /**
-     * @throws Exception
+     * @throws UnexpectedUnitSuffixException
      */
     private static function validateString(string $value): string
     {
