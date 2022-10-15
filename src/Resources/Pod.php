@@ -90,19 +90,6 @@ final class Pod extends K8sWorkloadResource
     }
 
     /**
-     * Set replicas.
-     *
-     * @param int $replicas
-     *
-     * @return Pod
-     */
-    public function replicas(int $replicas): Pod
-    {
-        $this->replicas = $replicas;
-        return $this;
-    }
-
-    /**
      * The restartPolicy applies to all containers in the Pod. restartPolicy
      * only refers to restarts of the containers by the kubelet on the same
      * node.
@@ -130,21 +117,6 @@ final class Pod extends K8sWorkloadResource
         return $this;
     }
 
-    protected function checkOsName(): bool
-    {
-        return isset($this->osName) && !empty($this->osName);
-    }
-
-    protected function checkRestartPolicy(): bool
-    {
-        return isset($this->restartPolicy) && !empty($this->restartPolicy);
-    }
-
-    protected function checkServiceAccount(): bool
-    {
-        return isset($this->serviceAccount) && !empty($this->serviceAccount);
-    }
-
     /**
      * Return an array as a definition of the resource.
      *
@@ -166,8 +138,16 @@ final class Pod extends K8sWorkloadResource
             $resource['spec']['containers'] = $this->containers;
         }
 
-        if ($this->checkRestartPolicy()) {
-            $resource['spec']['restartPolicy'] = $this->restartPolicy;
+        if ($this->checkProperty('imagePullSecrets')) {
+            $resource['spec']['imagePullSecrets'] = $this->imagePullSecrets;
+        }
+
+        if ($this->checkProperty('nodeSelectors')) {
+            $resource['spec']['nodeSelector'] = $this->nodeSelectors;
+        }
+
+        if ($this->checkProperty('restartPolicy')) {
+            $resource['spec']['restartPolicy'] = $this->restartPolicy->value;
         }
 
         if ($this->checkProperty('serviceAccount')) {

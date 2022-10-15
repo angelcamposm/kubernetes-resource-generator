@@ -23,19 +23,17 @@ abstract class K8sWorkloadResource extends K8sResource
         parent::__construct(kind: $kind, apiVersion: $apiVersion);
     }
 
-    protected function checkContainers(): bool
+    /**
+     * Set replicas.
+     *
+     * @param int $replicas
+     *
+     * @return K8sWorkloadResource
+     */
+    public function replicas(int $replicas): K8sWorkloadResource
     {
-        return isset($this->containers) && !empty($this->containers);
-    }
-
-    protected function checkInitContainers(): bool
-    {
-        return isset($this->initContainers) && !empty($this->initContainers);
-    }
-
-    protected function checkReplicas(): bool
-    {
-        return isset($this->replicas) && !empty($this->replicas);
+        $this->replicas = $replicas;
+        return $this;
     }
 
     protected function getBaseArrayDefinition(): array
