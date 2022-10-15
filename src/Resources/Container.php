@@ -109,7 +109,7 @@ final class Container
     {
         $container = [];
 
-        $properties = ['name', 'image', 'environment', 'volumeMounts'];
+        $properties = ['name', 'image', 'environment', 'ports', 'volumeMounts'];
 
         foreach ($properties as $property) {
             if ($this->checkProperty($property)) {
@@ -117,33 +117,39 @@ final class Container
             }
         }
 
-        if ($this->checkProperty('cpuLimit') || $this->checkProperty('memoryLimit')) {
-            $container['resources'] = [
-                'limits' => []
-            ];
+        if ($this->checkProperty('commands')) {
+            $container['command'] =  $this->commands;
         }
 
-        if ($this->checkProperty('cpuRequests') || $this->checkProperty('memoryRequests')) {
-            $container['resources'] = [
-                'requests' => []
-            ];
+        if ($this->checkProperty('imagePullPolicy')) {
+            $container['imagePullPolicy'] = $this->imagePullPolicy->value;
         }
 
         if ($this->checkProperty('cpuLimit')) {
-            $container['resources']['limits']['cpu'] = $this->cpuLimit;
+            $container['resources']['limits']['cpu'] = ResourceUnit::isInteger($this->cpuLimit)
+                ? $this->cpuLimit
+                : '^'.$this->cpuLimit.'^';
         }
 
         if ($this->checkProperty('cpuRequest')) {
-            $container['resources']['requests']['cpu'] = $this->cpuRequest;
+            $container['resources']['requests']['cpu'] = ResourceUnit::isInteger($this->cpuRequest)
+                ? $this->cpuRequest
+                : '^'.$this->cpuRequest.'^';
         }
 
         if ($this->checkProperty('memoryLimit')) {
-            $container['resources']['limits']['memory'] = $this->memoryLimit;
+            $container['resources']['limits']['memory'] = ResourceUnit::isInteger($this->memoryLimit)
+                ? $this->memoryLimit
+                : '^'.$this->memoryLimit.'^';
         }
 
         if ($this->checkProperty('memoryRequest')) {
-            $container['resources']['requests']['memory'] = $this->memoryRequest;
+            $container['resources']['requests']['memory'] = ResourceUnit::isInteger($this->memoryRequest)
+                ? $this->memoryRequest
+                : '^'.$this->memoryRequest.'^';
         }
+
+        ksort($container);
 
         return $container;
     }
