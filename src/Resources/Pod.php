@@ -2,6 +2,8 @@
 
 namespace Acamposm\KubernetesResourceGenerator\Resources;
 
+use Acamposm\KubernetesResourceGenerator\Enums\OperatingSystem;
+use Acamposm\KubernetesResourceGenerator\Enums\RestartPolicy;
 use Acamposm\KubernetesResourceGenerator\K8sWorkloadResource;
 use Acamposm\KubernetesResourceGenerator\Traits\Exportable;
 
@@ -19,8 +21,8 @@ final class Pod extends K8sWorkloadResource
 
     private array $nameservers = [];
     private array $options = [];
-    private string $osName;
-    private string $restartPolicy;
+    private OperatingSystem $osName;
+    private RestartPolicy $restartPolicy;
     private array $searches = [];
     private string $serviceAccount;
 
@@ -36,11 +38,11 @@ final class Pod extends K8sWorkloadResource
      * Set the Operating System name.
      * It can be one of linux|windows.
      *
-     * @param string $name
+     * @param OperatingSystem $name
      *
      * @return Pod
      */
-    public function osName(string $name): Pod
+    public function osName(OperatingSystem $name): Pod
     {
         $this->osName = $name;
         return $this;
@@ -64,11 +66,11 @@ final class Pod extends K8sWorkloadResource
      * only refers to restarts of the containers by the kubelet on the same
      * node.
      *
-     * @param string $policy
+     * @param RestartPolicy $policy
      *
      * @return Pod
      */
-    public function restartPolicy(string $policy): Pod
+    public function restartPolicy(RestartPolicy $policy): Pod
     {
         $this->restartPolicy = $policy;
         return $this;
