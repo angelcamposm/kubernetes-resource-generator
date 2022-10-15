@@ -2,8 +2,12 @@
 
 namespace Acamposm\KubernetesResourceGenerator;
 
+use Acamposm\KubernetesResourceGenerator\Traits\CanCheckProperties;
+
 abstract class K8sWorkloadResource extends K8sResource
 {
+    use CanCheckProperties;
+
     protected array $containers = [];
     protected array $initContainers = [];
     protected int $replicas;
@@ -38,7 +42,7 @@ abstract class K8sWorkloadResource extends K8sResource
     {
         $resource = parent::getBaseArrayDefinition();
 
-        if ($this->checkReplicas()) {
+        if ($this->checkProperty('replicas')) {
             $resource['spec']['replicas'] = $this->replicas;
         }
 
