@@ -4,12 +4,12 @@ namespace Acamposm\KubernetesResourceGenerator\Resources;
 
 use Acamposm\KubernetesResourceGenerator\Enums\ImagePullPolicy;
 use Acamposm\KubernetesResourceGenerator\Helpers\ResourceUnit;
-use Acamposm\KubernetesResourceGenerator\K8sResource;
+use Acamposm\KubernetesResourceGenerator\Traits\CanCheckProperties;
 use Acamposm\KubernetesResourceGenerator\Traits\Exportable;
 
-class Container
+final class Container
 {
-    use Exportable;
+    use CanCheckProperties, Exportable;
 
     private array $args = [];
     private array $commands = [];
