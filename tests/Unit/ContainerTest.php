@@ -48,6 +48,42 @@ class ContainerTest extends TestCase
         $this->assertEquals($ipp->value, $this->container->toArray()['imagePullPolicy']);
     }
 
+    public function testItCanAddEnvironmentVariable(): void
+    {
+        $this->container->addEnvVariable('DEBUG', '*');
+
+        $container = $this->container->toArray();
+
+        $this->assertArrayHasKey('env', $container);
+        $this->assertEquals(['name' => 'DEBUG', 'value' => '*'], $container['env'][0]);
+    }
+
+    public function testItCanAddPortToContainer(): void
+    {
+        $ports = [
+            [
+                'containerPort' => 8080,
+                'name' => 'http-alt',
+                'protocol' => 'TCP',
+            ]
+        ];
+
+        $container = $this->container->addPorts($ports)->toArray();
+
+        $this->assertArrayHasKey('ports', $container);
+        $this->assertEquals($ports, $container['ports']);
+    }
+
+    public function testItCanAddCommands(): void
+    {
+        $command = ['sh', '-c', 'sleep', '60s'];
+
+        $container = $this->container->addCommands($command)->toArray();
+
+        $this->assertArrayHasKey('command', $container);
+        $this->assertEquals($command, $container['command']);
+    }
+
     public function testItCanSetCpuLimit(): void
     {
         $this->container->setCpuLimit(1);
