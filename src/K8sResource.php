@@ -127,26 +127,11 @@ abstract class K8sResource implements KubernetesResource
         return $this;
     }
 
-    protected function checkAnnotations(): bool
-    {
-        return isset($this->annotations) && !empty($this->annotations);
-    }
-
-    protected function checkLabels(): bool
-    {
-        return isset($this->labels) && !empty($this->labels);
-    }
-
-    protected function checkName(): bool
-    {
-        return isset($this->name) && !empty($this->name);
-    }
-
-    protected function checkNamespace(): bool
-    {
-        return isset($this->namespace) && !empty($this->namespace);
-    }
-
+    /**
+     * Return a base array definition with metadata properties.
+     *
+     * @return array
+     */
     protected function getBaseArrayDefinition(): array
     {
         $resource = [
@@ -154,20 +139,9 @@ abstract class K8sResource implements KubernetesResource
             'apiVersion' => $this->apiVersion,
         ];
 
-        if ($this->checkName()) {
-            $resource['metadata']['name'] = $this->name;
-        }
-
-        if ($this->checkNamespace()) {
-            $resource['metadata']['namespace'] = $this->namespace;
-        }
-
-        if ($this->checkAnnotations()) {
-            $resource['metadata']['annotations'] = $this->annotations;
-        }
-
-        if ($this->checkLabels()) {
-            $resource['metadata']['labels'] = $this->labels;
+        // Add metadata properties
+        foreach(['name', 'namespace', 'annotations', 'labels'] as $property) {
+            $resource['metadata'][$property] = $this->$property;
         }
 
         return $resource;
