@@ -52,7 +52,7 @@ final class Container
 
     public function addCommands(array $commands): Container
     {
-        foreach($commands as $key => $command) {
+        foreach ($commands as $key => $command) {
             $this->commands[] = $command;
         }
         return $this;
@@ -87,7 +87,7 @@ final class Container
 
     public function addPorts(array $ports): Container
     {
-        foreach($ports as $port) {
+        foreach ($ports as $port) {
             $this->ports[] = $port;
         }
         return $this;

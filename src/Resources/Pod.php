@@ -31,7 +31,7 @@ final class Pod extends K8sWorkloadResource
 
     public function addContainers(array $containers): Pod
     {
-        foreach($containers as $key => $value) {
+        foreach ($containers as $key => $value) {
             $this->containers[$key] = $value;
         }
         return $this;
