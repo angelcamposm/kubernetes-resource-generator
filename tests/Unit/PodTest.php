@@ -15,6 +15,8 @@ class PodTest extends TestCase
 {
     protected Pod $pod;
 
+    private const PRIMARY_IMAGE_PULL_SECRET = 'my-private-registry-access-token';
+    private const SECONDARY_IMAGE_PULL_SECRET = 'my-secondary-access-token';
     private const NAME = 'pod-name';
     private const NAMESPACE = 'pod-namespace';
     private const REPLICAS = 3;
@@ -121,6 +123,40 @@ class PodTest extends TestCase
             expected: self::SERVICE_ACCOUNT,
             actual: Reflection::getPropertyValue($this->pod, 'serviceAccount')
         );
+    }
+
+    /**
+     * @throws ReflectionException
+     */
+    public function testItCanSetImagePullSecret(): void
+    {
+        $this->pod->addImagePullSecret(self::PRIMARY_IMAGE_PULL_SECRET);
+
+        $this->assertEquals(
+            expected: ['name' => self::PRIMARY_IMAGE_PULL_SECRET],
+            actual: Reflection::getPropertyValue($this->pod, 'imagePullSecrets')[0]
+        );
+    }
+
+    public function testItCanSetImagePullSecrets(): void
+    {
+        $secrets = [
+            ['name' => self::PRIMARY_IMAGE_PULL_SECRET],
+            ['name' => self::SECONDARY_IMAGE_PULL_SECRET],
+        ];
+
+        $pod = $this->pod
+            ->name(self::NAME)
+            ->addImagePullSecrets([
+                self::PRIMARY_IMAGE_PULL_SECRET,
+                self::SECONDARY_IMAGE_PULL_SECRET,
+            ])
+            ->toArray();
+
+        $this->assertIsArray($pod);
+        $this->assertArrayHasKey('spec', $pod);
+        $this->assertArrayHasKey('imagePullSecrets', $pod['spec']);
+        $this->assertEquals($secrets, $pod['spec']['imagePullSecrets']);
     }
 
     public function testItCanReturnAnArrayWithFullExample(): void
