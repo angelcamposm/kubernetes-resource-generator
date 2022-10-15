@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Acamposm\KubernetesResourceGenerator\Tests\Unit;
 
+use Acamposm\KubernetesResourceGenerator\Enums\OperatingSystem;
+use Acamposm\KubernetesResourceGenerator\Enums\RestartPolicy;
 use Acamposm\KubernetesResourceGenerator\Resources\Pod;
 use Acamposm\KubernetesResourceGenerator\Tests\Helpers\Reflection;
 use PHPUnit\Framework\TestCase;
@@ -61,10 +63,10 @@ class PodTest extends TestCase
      */
     public function testItCanSetOsNameToLinux(): void
     {
-        $this->pod->osName(Pod::OS_LINUX);
+        $this->pod->osName(OperatingSystem::LINUX);
 
         $this->assertEquals(
-            expected: Pod::OS_LINUX,
+            expected: OperatingSystem::LINUX,
             actual: Reflection::getPropertyValue($this->pod,'osName')
         );
     }
@@ -74,10 +76,10 @@ class PodTest extends TestCase
      */
     public function testItCanSetOsNameToWindows(): void
     {
-        $this->pod->osName(Pod::OS_WINDOWS);
+        $this->pod->osName(OperatingSystem::WINDOWS);
 
         $this->assertEquals(
-            expected: Pod::OS_WINDOWS,
+            expected: OperatingSystem::WINDOWS,
             actual: Reflection::getPropertyValue($this->pod,'osName')
         );
     }
@@ -100,10 +102,10 @@ class PodTest extends TestCase
      */
     public function testItCanSetRestartPolicy(): void
     {
-        $this->pod->restartPolicy(Pod::RP_ALWAYS);
+        $this->pod->restartPolicy(RestartPolicy::ALWAYS);
 
         $this->assertEquals(
-            expected: Pod::RP_ALWAYS,
+            expected: RestartPolicy::ALWAYS,
             actual: Reflection::getPropertyValue($this->pod, 'restartPolicy')
         );
     }
@@ -126,10 +128,10 @@ class PodTest extends TestCase
         $pod = $this->pod
             ->name(self::NAME)
             ->namespace(self::NAMESPACE)
-            ->osName(Pod::OS_LINUX)
+            ->osName(OperatingSystem::LINUX)
             ->serviceAccount(self::SERVICE_ACCOUNT)
             ->replicas(self::REPLICAS)
-            ->restartPolicy(Pod::RP_ALWAYS);
+            ->restartPolicy(RestartPolicy::ALWAYS);
 
         $this->assertIsArray($pod->toArray());
     }
@@ -139,10 +141,10 @@ class PodTest extends TestCase
         $pod = $this->pod
             ->name(self::NAME)
             ->namespace(self::NAMESPACE)
-            ->osName(Pod::OS_LINUX)
+            ->osName(OperatingSystem::LINUX)
             ->serviceAccount(self::SERVICE_ACCOUNT)
             ->replicas(self::REPLICAS)
-            ->restartPolicy(Pod::RP_ALWAYS);
+            ->restartPolicy(RestartPolicy::ALWAYS);
 
         $yaml = $pod->toYaml();
 
@@ -151,8 +153,8 @@ class PodTest extends TestCase
         $this->assertStringContainsString(self::NAMESPACE, $yaml);
         $this->assertStringContainsString(self::SERVICE_ACCOUNT, $yaml);
         $this->assertStringContainsString(strval(self::REPLICAS), $yaml);
-        $this->assertStringContainsString(Pod::OS_LINUX, $yaml);
-        $this->assertStringContainsString(Pod::RP_ALWAYS, $yaml);
+        $this->assertStringContainsString(OperatingSystem::LINUX->value, $yaml);
+        $this->assertStringContainsString(RestartPolicy::ALWAYS->value, $yaml);
     }
 
 }
