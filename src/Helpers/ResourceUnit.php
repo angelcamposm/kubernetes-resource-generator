@@ -14,7 +14,7 @@ class ResourceUnit
      */
     public static function validate(mixed $value): string
     {
-        if (is_int(filter_var($value, FILTER_VALIDATE_INT))) {
+        if (self::isInteger($value)) {
             return $value;
         }
 
@@ -35,5 +35,10 @@ class ResourceUnit
         }
 
         return $value;
+    }
+
+    public static function isInteger(mixed $value): bool
+    {
+        return is_int(filter_var($value, FILTER_VALIDATE_INT));
     }
 }
