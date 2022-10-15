@@ -12,15 +12,9 @@ final class Pod extends K8sWorkloadResource
 {
     use Exportable, CanCheckProperties;
 
-    // OS name
-    public const OS_LINUX = 'linux';
-    public const OS_WINDOWS = 'windows';
-    // Restart Policies
-    public const RP_ALWAYS = 'Always';
-    public const RP_ON_FAILURE = 'OnFailure';
-    public const RP_NEVER = 'Never';
-
+    private array $imagePullSecrets = [];
     private array $nameservers = [];
+    private array $nodeSelectors = [];
     private array $options = [];
     private OperatingSystem $osName;
     private RestartPolicy $restartPolicy;
