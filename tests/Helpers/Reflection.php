@@ -11,7 +11,7 @@ class Reflection
     /**
      * @throws ReflectionException
      */
-    public static function getPropertyValue(KubernetesResource $resource, string $property): mixed
+    public static function getPropertyValue(mixed $resource, string $property): mixed
     {
         $reflectionClass = new ReflectionClass($resource);
         $reflectionProperty = $reflectionClass->getProperty($property);
