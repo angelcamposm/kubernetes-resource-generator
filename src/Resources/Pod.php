@@ -5,11 +5,12 @@ namespace Acamposm\KubernetesResourceGenerator\Resources;
 use Acamposm\KubernetesResourceGenerator\Enums\OperatingSystem;
 use Acamposm\KubernetesResourceGenerator\Enums\RestartPolicy;
 use Acamposm\KubernetesResourceGenerator\K8sWorkloadResource;
+use Acamposm\KubernetesResourceGenerator\Traits\CanCheckProperties;
 use Acamposm\KubernetesResourceGenerator\Traits\Exportable;
 
 final class Pod extends K8sWorkloadResource
 {
-    use Exportable;
+    use Exportable, CanCheckProperties;
 
     // OS name
     public const OS_LINUX = 'linux';
@@ -113,15 +114,15 @@ final class Pod extends K8sWorkloadResource
     {
         $resource = $this->getBaseArrayDefinition();
 
-        if ($this->checkOsName()) {
-            $resource['spec']['os']['name'] = $this->osName;
+        if ($this->checkProperty('osName')) {
+            $resource['spec']['os']['name'] = $this->osName->value;
         }
 
-        if ($this->checkInitContainers()) {
+        if ($this->checkProperty('initContainers')) {
             $resource['spec']['initContainers'] = $this->initContainers;
         }
 
-        if ($this->checkContainers()) {
+        if ($this->checkProperty('containers')) {
             $resource['spec']['containers'] = $this->containers;
         }
 
@@ -129,7 +130,7 @@ final class Pod extends K8sWorkloadResource
             $resource['spec']['restartPolicy'] = $this->restartPolicy;
         }
 
-        if ($this->checkServiceAccount()) {
+        if ($this->checkProperty('serviceAccount')) {
             $resource['spec']['serviceAccount'] = $this->serviceAccount;
         }
 
