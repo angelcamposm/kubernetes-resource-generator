@@ -130,15 +130,15 @@ final class Container
         }
 
         if ($this->checkProperty('cpuRequest')) {
-            $container['resources']['requests']['cpu'] = self::addSimpleQuotesTo($this->cpuRequest);;
+            $container['resources']['requests']['cpu'] = self::addSimpleQuotesTo($this->cpuRequest);
         }
 
         if ($this->checkProperty('memoryLimit')) {
-            $container['resources']['limits']['memory'] = self::addSimpleQuotesTo($this->memoryLimit);;
+            $container['resources']['limits']['memory'] = self::addSimpleQuotesTo($this->memoryLimit);
         }
 
         if ($this->checkProperty('memoryRequest')) {
-            $container['resources']['requests']['memory'] = self::addSimpleQuotesTo($this->memoryRequest);;
+            $container['resources']['requests']['memory'] = self::addSimpleQuotesTo($this->memoryRequest);
         }
 
         ksort($container);
