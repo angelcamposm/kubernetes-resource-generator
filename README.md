@@ -10,20 +10,29 @@ a PHP package to generate yaml files of Kubernetes resources.
 ### Generate a Pod definition
 
 ```php
-use Acamposm\KubernetesResourceGenerator\Enums\ImagePullPolicy;
-use Acamposm\KubernetesResourceGenerator\Enums\OperatingSystem;
-use Acamposm\KubernetesResourceGenerator\Enums\RestartPolicy;
-use Acamposm\KubernetesResourceGenerator\Helpers\KubernetesRecommendedLabels;
-use Acamposm\KubernetesResourceGenerator\Resources\Container;
-use Acamposm\KubernetesResourceGenerator\Resources\Pod;
+use Acamposm\K8sResourceGenerator\Reference\Annotations\PodAnnotations;
+use Acamposm\K8sResourceGenerator\Reference\Labels\PodLabels;
+use Acamposm\K8sResourceGenerator\Enums\ImagePullPolicy;
+use Acamposm\K8sResourceGenerator\Enums\OperatingSystem;
+use Acamposm\K8sResourceGenerator\Enums\RestartPolicy;
+use Acamposm\K8sResourceGenerator\Resources\Container;
+use Acamposm\K8sResourceGenerator\Resources\Pod;
+
+// Set well known kubernetes annotations
+$podAnnotations = array_merge(
+	PodAnnotations::deletionCost(500),
+    PodAnnotations::defaultContainer('my-app-container'),
+);
 
 // Set common used kubernetes labels
-$labels = new KubernetesRecommendedLabels();
-$labels->name('my-awesome-application')
-    ->instance('my-awesome-application-xyz')
-    ->version('1.0.0')
-    ->managedBy('Kustomize')
-    ->partOf('my-awesome-application');
+$podLabels = array_merge(
+    PodLabels::component('database'),
+    PodLabels::instance('my-awesome-application-xyz'),
+    PodLabels::managedBy('Kustomize'),
+    PodLabels::name('my-awesome-application'),
+    PodLabels::partOf('my-awesome-application'),
+    PodLabels::version('1.0.0'),
+);
 
 // Now set a container for the pod
 $container = new Container();
@@ -48,7 +57,7 @@ $pod = new Pod();
 $pod->name('pod-name')
     ->namespace('my-awesome-project')
     ->addAnnotation('imageregistry', 'https://hub.docker.com/')
-    ->addLabels($labels->toArray())
+    ->addLabels($podLabels)
     ->addContainers([$container->toArray()])
     ->addImagePullSecret('registry-access-secret')
     ->addNodeSelectors([
@@ -70,25 +79,30 @@ metadata:
   name: pod-name
   namespace: my-awesome-project
   annotations:
+    controller.kubernetes.io/pod-deletion-cost: 500
     imageregistry: 'https://hub.docker.com/'
+    kubectl.kubernetes.io/default-container: my-app-container
   labels:
-    app.kubernetes.io/name: my-awesome-application
+    app.kubernetes.io/component: database
     app.kubernetes.io/instance: my-awesome-application-xyz
-    app.kubernetes.io/version: 1.0.0
     app.kubernetes.io/managed-by: Kustomize
+    app.kubernetes.io/name: my-awesome-application
     app.kubernetes.io/part-of: my-awesome-application
+    app.kubernetes.io/version: 1.0.0
 spec:
+  os:
+    name: linux
   containers:
-    - name: app-name
-      image: 'alpine:latest'
-      environment:
+    - env:
         - name: DEBUG
           value: '*'
+      image: 'alpine:latest'
+      imagePullPolicy: Always
+      name: app-name
       ports:
         - containerPort: 4000
           name: http-alt
           protocol: TCP
-      imagePullPolicy: Always
       resources:
         limits:
           cpu: '1'
@@ -96,13 +110,11 @@ spec:
         requests:
           cpu: '100m'
           memory: '1Gi'
-  imagePullSecrets:
-    - name: registry-access-secret
-  nodeSelector:
-    type: compute
-    diskType: ssd
-  os:
-    name: linux
-  restartPolicy: Never
-  serviceAccount: pod-service-account
+      imagePullSecrets:
+        - name: registry-access-secret
+      nodeSelector:
+        type: compute
+        diskType: ssd
+      restartPolicy: Never
+      serviceAccount: pod-service-account
 ```
