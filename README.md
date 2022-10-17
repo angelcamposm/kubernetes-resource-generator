@@ -20,7 +20,7 @@ use Acamposm\K8sResourceGenerator\Resources\Pod;
 
 // Set well known kubernetes annotations
 $podAnnotations = array_merge(
-	PodAnnotations::deletionCost(500),
+    PodAnnotations::deletionCost(500),
     PodAnnotations::defaultContainer('my-app-container'),
 );
 
