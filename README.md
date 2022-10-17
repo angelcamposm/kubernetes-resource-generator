@@ -26,6 +26,7 @@ $labels->name('my-awesome-application')
     ->partOf('my-awesome-application');
 
 // Now set a container for the pod
+$container = new Container();
 $container->name('app-name')
     ->addEnvVariable('DEBUG', '*')
     ->addPorts([
