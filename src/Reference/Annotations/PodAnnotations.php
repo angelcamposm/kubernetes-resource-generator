@@ -2,9 +2,7 @@
 
 namespace Acamposm\KubernetesResourceGenerator\Reference\Annotations;
 
-use Acamposm\KubernetesResourceGenerator\Reference\Labels\AllObjectLabels;
-
-final class PodAnnotations extends AllObjectLabels
+final class PodAnnotations extends AllObjectAnnotations
 {
     /**
      * Set Pod Deletion Cost which allows users to influence ReplicaSet
