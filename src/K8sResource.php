@@ -141,6 +141,9 @@ abstract class K8sResource implements KubernetesResource
 
         // Add metadata properties
         foreach (['name', 'namespace', 'annotations', 'labels'] as $property) {
+            if (is_array($this->$property)) {
+                ksort($this->$property);
+            }
             $resource['metadata'][$property] = $this->$property;
         }
 
