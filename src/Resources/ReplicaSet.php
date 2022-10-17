@@ -26,6 +26,13 @@ final class ReplicaSet extends K8sWorkloadResource
         parent::__construct(kind: 'ReplicaSet', apiVersion: 'apps/v1');
     }
 
+    /**
+     * add container definitions
+     *
+     * @param array $containers
+     *
+     * @return ReplicaSet
+     */
     public function addContainers(array $containers): ReplicaSet
     {
         foreach ($containers as $container) {
@@ -34,6 +41,14 @@ final class ReplicaSet extends K8sWorkloadResource
         return $this;
     }
 
+    /**
+     * The .spec.selector field is a label selector, these are the labels used
+     * to identify potential Pods to acquire.
+     *
+     * @param array $podSelectors
+     *
+     * @return ReplicaSet
+     */
     public function addPodSelectors(array $podSelectors): ReplicaSet
     {
         foreach ($podSelectors as $key => $value) {
@@ -42,6 +57,13 @@ final class ReplicaSet extends K8sWorkloadResource
         return $this;
     }
 
+    /**
+     *
+     *
+     * @param array $labels
+     *
+     * @return ReplicaSet
+     */
     public function addTemplateLabels(array $labels): ReplicaSet
     {
         foreach ($labels as $key => $value) {
