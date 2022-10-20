@@ -68,7 +68,7 @@ class PodTest extends TestCase
         $this->pod->osName(OperatingSystem::LINUX);
 
         $this->assertEquals(
-            expected: OperatingSystem::LINUX,
+            expected: OperatingSystem::LINUX->value,
             actual: Reflection::getPropertyValue($this->pod,'osName')
         );
     }
@@ -81,7 +81,7 @@ class PodTest extends TestCase
         $this->pod->osName(OperatingSystem::WINDOWS);
 
         $this->assertEquals(
-            expected: OperatingSystem::WINDOWS,
+            expected: OperatingSystem::WINDOWS->value,
             actual: Reflection::getPropertyValue($this->pod,'osName')
         );
     }
@@ -107,7 +107,7 @@ class PodTest extends TestCase
         $this->pod->restartPolicy(RestartPolicy::ALWAYS);
 
         $this->assertEquals(
-            expected: RestartPolicy::ALWAYS,
+            expected: RestartPolicy::ALWAYS->value,
             actual: Reflection::getPropertyValue($this->pod, 'restartPolicy')
         );
     }
