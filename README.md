@@ -110,11 +110,11 @@ spec:
         requests:
           cpu: '100m'
           memory: '1Gi'
-      imagePullSecrets:
-        - name: registry-access-secret
-      nodeSelector:
-        type: compute
-        diskType: ssd
-      restartPolicy: Never
-      serviceAccount: pod-service-account
+  imagePullSecrets:
+    - name: registry-access-secret
+  nodeSelector:
+    type: compute
+    diskType: ssd
+  restartPolicy: Never
+  serviceAccount: pod-service-account
 ```
