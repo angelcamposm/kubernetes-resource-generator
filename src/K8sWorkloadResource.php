@@ -24,6 +24,21 @@ abstract class K8sWorkloadResource extends K8sResource
     }
 
     /**
+     * Add containers to a workload resource.
+     *
+     * @param array $containers
+     *
+     * @return K8sWorkloadResource
+     */
+    public function addContainers(array $containers): K8sWorkloadResource
+    {
+        foreach ($containers as $key => $value) {
+            $this->containers[$key] = $value;
+        }
+        return $this;
+    }
+
+    /**
      * Set replicas.
      *
      * @param int $replicas
