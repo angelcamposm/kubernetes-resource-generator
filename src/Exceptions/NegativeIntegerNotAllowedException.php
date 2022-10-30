@@ -8,6 +8,6 @@ class NegativeIntegerNotAllowedException extends RuntimeException
 {
     public function __construct()
     {
-        parent::__construct('Value must be non-negative integer.', 0);
+        parent::__construct('The value must not be an integer of negative value.', 0);
     }
 }
