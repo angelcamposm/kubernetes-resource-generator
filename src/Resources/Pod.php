@@ -22,7 +22,7 @@ final class Pod extends K8sWorkloadResource
     private array $dnsConfigNameservers = [];
     private array $dnsConfigOptions = [];
     private array $dnsConfigSearches = [];
-    private string $dnsPolicy;
+    private DnsPolicy $dnsPolicy;
     private array $hostAlias = [];
     private string $hostname;
     private array $imagePullSecrets = [];
@@ -30,8 +30,8 @@ final class Pod extends K8sWorkloadResource
     private array $nameservers = [];
     private array $nodeSelectors = [];
     private array $options = [];
-    private string $osName;
-    private string $restartPolicy;
+    private OperatingSystem $operatingSystem;
+    private RestartPolicy $restartPolicy;
     private array $searches = [];
     private string $serviceAccount;
     private string $subdomain;
@@ -157,7 +157,7 @@ final class Pod extends K8sWorkloadResource
 
     public function dnsPolicy(DnsPolicy $policy): Pod
     {
-        $this->dnsPolicy = $policy->value;
+        $this->dnsPolicy = $policy;
         return $this;
     }
 
@@ -196,13 +196,13 @@ final class Pod extends K8sWorkloadResource
      * Set the Operating System name.
      * It can be one of linux|windows.
      *
-     * @param OperatingSystem $os
+     * @param OperatingSystem $operatingSystem
      *
      * @return Pod
      */
-    public function osName(OperatingSystem $os): Pod
+    public function osName(OperatingSystem $operatingSystem): Pod
     {
-        $this->osName = $os->value;
+        $this->operatingSystem = $operatingSystem;
         return $this;
     }
 
@@ -230,7 +230,7 @@ final class Pod extends K8sWorkloadResource
      */
     public function restartPolicy(RestartPolicy $policy): Pod
     {
-        $this->restartPolicy = $policy->value;
+        $this->restartPolicy = $policy;
         return $this;
     }
 
@@ -392,7 +392,7 @@ final class Pod extends K8sWorkloadResource
     private function setDnsPolicy(): void
     {
         if ($this->checkProperty('dnsPolicy')) {
-            $this->resource['spec']['dnsPolicy'] = $this->dnsPolicy;
+            $this->resource['spec']['dnsPolicy'] = $this->dnsPolicy->value;
         }
     }
 
@@ -433,15 +433,15 @@ final class Pod extends K8sWorkloadResource
 
     private function setPodOS(): void
     {
-        if ($this->checkProperty('osName')) {
-            $this->resource['spec']['os']['name'] = $this->osName;
+        if ($this->checkProperty('operatingSystem')) {
+            $this->resource['spec']['os']['name'] = $this->operatingSystem->value;
         }
     }
 
     private function setRestartPolicy(): void
     {
         if ($this->checkProperty('restartPolicy')) {
-            $this->resource['spec']['restartPolicy'] = $this->restartPolicy;
+            $this->resource['spec']['restartPolicy'] = $this->restartPolicy->value;
         }
     }
 
