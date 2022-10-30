@@ -8,8 +8,6 @@ abstract class K8sWorkloadResource extends K8sResource
 {
     use CanCheckProperties;
 
-    protected array $containers = [];
-    protected array $initContainers = [];
     protected int $replicas;
 
     /**
@@ -21,21 +19,6 @@ abstract class K8sWorkloadResource extends K8sResource
     public function __construct(string $kind, string $apiVersion)
     {
         parent::__construct(kind: $kind, apiVersion: $apiVersion);
-    }
-
-    /**
-     * Add containers to a workload resource.
-     *
-     * @param array $containers
-     *
-     * @return K8sWorkloadResource
-     */
-    public function addContainers(array $containers): K8sWorkloadResource
-    {
-        foreach ($containers as $key => $value) {
-            $this->containers[$key] = $value;
-        }
-        return $this;
     }
 
     /**
