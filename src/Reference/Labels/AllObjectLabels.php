@@ -75,6 +75,4 @@ abstract class AllObjectLabels
     {
         return ['app.kubernetes.io/version' => $version];
     }
-
-
 }

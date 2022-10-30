@@ -31,6 +31,4 @@ final class PodLabels extends AllObjectLabels
     {
         return ['cluster-autoscaler.kubernetes.io/safe-to-evict' => 'false'];
     }
-
-
 }

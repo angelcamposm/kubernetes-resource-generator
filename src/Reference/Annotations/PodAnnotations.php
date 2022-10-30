@@ -28,6 +28,4 @@ final class PodAnnotations extends AllObjectAnnotations
     {
         return ['kubectl.kubernetes.io/default-container' => $name];
     }
-
-
 }
